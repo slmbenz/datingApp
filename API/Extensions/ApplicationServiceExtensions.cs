@@ -12,10 +12,12 @@ namespace API.Extensions
         {
             services.AddDbContext<DataContext>(opt =>
             {
-            opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
+                opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
             });
             services.AddCors();
             services.AddScoped<ITokenService, TokenService>(); // used for https request used inside a controller. it needs to specify the Interfacea and its implementig class
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             return services;
         }
