@@ -477,6 +477,6 @@ $RECYCLE.BIN/
 *.lnk
 API/appsettings.Development.json
 API/appsettings.json
-# API/datingapp.db-shm
+API/datingapp.db-shm
 .gitignore
-# API/datingapp.db-wal
+API/datingapp.db-wal
