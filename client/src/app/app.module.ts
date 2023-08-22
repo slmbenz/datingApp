@@ -5,7 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { ErrorInterceptor } from './_interceptor/error.interceptor';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
-import { SharedModule } from './_moudules/shared.module';
+import { SharedModule } from './_modules/shared.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
