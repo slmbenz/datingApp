@@ -33,8 +33,17 @@ export class MembersService {
       map(() => {
         // update the member in the array
         const index = this.members.indexOf(member);
-        this.members[index] = {...this.members[index], ...member};
+        this.members[index] = { ...this.members[index], ...member };
       })
     );
   }
+
+  setMainPhoto(photoId: number) {
+    return this.http.put(this.baseUrl + 'users/set-main-photo/' + photoId, {}); // {} is the body
+  }
+
+  deletePhoto(photoId: number) {
+    return this.http.delete(this.baseUrl + 'users/delete-photo/' + photoId);
+  }
+
 }
