@@ -2,11 +2,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FileUploader } from 'ng2-file-upload';
 import { take } from 'rxjs';
 import { Member } from 'src/app/_models/member';
+import { Photo } from 'src/app/_models/photo';
 import { User } from 'src/app/_models/user';
 import { MembersService } from 'src/app/_services/members.service';
 import { environment } from 'src/environments/environment';
 import { AccountService } from './../../_services/account.service';
-import { Photo } from 'src/app/_models/photo';
 
 @Component({
   selector: 'app-photo-editor',
@@ -51,8 +51,8 @@ export class PhotoEditorComponent implements OnInit {
             if (p.id === photo.id) p.isMain = true;
           });
         }
-      }
-     });
+      },
+    });
   }
 
   deletePhoto(photoId: number) {
@@ -63,8 +63,8 @@ export class PhotoEditorComponent implements OnInit {
             (x) => x.id !== photoId
           );
         }
-      }
-     });
+      },
+    });
   }
 
   initializeUploader() {
@@ -86,6 +86,11 @@ export class PhotoEditorComponent implements OnInit {
       if (response) {
         const photo = JSON.parse(response);
         this.member?.photos.push(photo);
+        if (photo.isMain && this.user && this.member) {
+          this.user.photoUrl = photo.url;
+          this.member.photoUrl = photo.url;
+          this.accountService.setCurrentUser(this.user);
+        }
       }
     };
   }

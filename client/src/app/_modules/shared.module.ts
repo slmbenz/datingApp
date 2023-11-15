@@ -6,6 +6,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrModule } from 'ngx-toastr';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   declarations: [],
@@ -19,6 +20,7 @@ import { ToastrModule } from 'ngx-toastr';
     }),
     NgxSpinnerModule.forRoot({ type: 'pacman' }),
     FileUploadModule,
+    BsDatepickerModule.forRoot(),
   ],
   exports: [
     BsDropdownModule,
@@ -26,6 +28,7 @@ import { ToastrModule } from 'ngx-toastr';
     TabsModule,
     NgxSpinnerModule,
     FileUploadModule,
+    BsDatepickerModule
   ],
 })
 export class SharedModule {}
