@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Member } from 'src/app/_models/member';
+import { Pagination } from 'src/app/_models/pagination';
 import { MembersService } from 'src/app/_services/members.service';
+import { UserParams } from './../../_models/userPrams';
 
 @Component({
   selector: 'app-member-list',
@@ -9,11 +10,48 @@ import { MembersService } from 'src/app/_services/members.service';
   styleUrls: ['./member-list.component.css'],
 })
 export class MemberListComponent implements OnInit {
-  members$: Observable<Member[]> | undefined;
-  constructor(private memberService: MembersService) {}
+  members: Member[] = [];
+  pagination: Pagination | undefined;
+  userParams: UserParams | undefined;
+  genderList: { value: string; display: string }[] = [
+    { value: 'male', display: 'Males' },
+    { value: 'female', display: 'Females' },
+  ];
 
-  ngOnInit(): void {
-    this.members$ = this.memberService.getMembers();
+  constructor(private memberService: MembersService) {
+    this.userParams = this.memberService.getUserParams();
   }
 
+  ngOnInit(): void {
+    this.loadMembers();
+  }
+
+  loadMembers() {
+    if (this.userParams) {
+      this.memberService.setUserParams(this.userParams);
+      this.memberService.getMembers(this.userParams).subscribe({
+        next: (response) => {
+          if (response.result && response.pagination) {
+            this.members = response.result;
+            this.pagination = response.pagination;
+          }
+        },
+      });
+    }
+  }
+
+  resetFilters() {
+    console.log('filter reset');
+    this.userParams = this.memberService.resetUserParams();
+    this.loadMembers();
+  }
+
+  pageChanged(event: any) {
+    if (this.userParams === undefined) return;
+    // if the page number is the same, don't do anything (prevent multiple calls to the API)
+    if (this.userParams?.pageNumber === event.page) return;
+    this.userParams.pageNumber = event.page;
+    this.memberService.setUserParams(this.userParams);
+    this.loadMembers();
+  }
 }

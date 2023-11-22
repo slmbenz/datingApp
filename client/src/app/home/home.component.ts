@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { AccountService } from './../_services/account.service';
 
 @Component({
   selector: 'app-home',
@@ -10,9 +10,15 @@ export class HomeComponent implements OnInit {
   registerMode = false;
   users: any;
 
-  constructor() {}
+  constructor(public accountService: AccountService) {
+    this.registerMode = !accountService.userIsLoggedIn();
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.accountService.userIsLoggedIn();
+    console.log(this.accountService.userIsLoggedIn());
+    this.registerMode = !this.accountService.userIsLoggedIn();
+  }
 
   registerToggle() {
     this.registerMode = !this.registerMode;

@@ -43,6 +43,16 @@ export class AccountService {
     this.currentUserSource.next(user);
   }
 
+  userIsLoggedIn() {
+    const user = localStorage.getItem('user');
+    if (user) {
+      this.currentUserSource.next(JSON.parse(user));
+      return true;
+    }
+    return false;
+   }
+
+
   logout() {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);

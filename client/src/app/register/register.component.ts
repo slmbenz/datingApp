@@ -32,7 +32,6 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
     this.initializeForm();
-    console.log(this.matchValues('password'));
   }
 
   initializeForm() {
