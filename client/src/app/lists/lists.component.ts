@@ -12,7 +12,7 @@ export class ListsComponent implements OnInit {
   members: Member[] | undefined;
   predicate = 'liked';
   pageNumber = 1;
-  poageSize = 5;
+  pageSize = 5;
   pagination: Pagination | undefined;
 
   constructor(private memberService: MembersService) {}
@@ -21,7 +21,7 @@ export class ListsComponent implements OnInit {
 
   loadLikes() {
     this.memberService
-      .getLikes(this.predicate, this.pageNumber, this.poageSize)
+      .getLikes(this.predicate, this.pageNumber, this.pageSize)
       .subscribe({
         next: (response) => {
           this.members = response.result;
