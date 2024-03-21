@@ -15,21 +15,15 @@ import { MessageService } from 'src/app/_services/message.service';
 export class MemberMessagesComponent {
   @ViewChild('messageForm') messageForm?: NgForm;
   @Input() username?: string;
-  @Input() messages: Message[] = [];
   messageContent = '';
 
-  constructor(private messageService: MessageService) {}
+  constructor(public messageService: MessageService) {}
 
   sendMessage() {
     if (this.username && this.messageContent.length > 0) {
       this.messageService
-        .sendMessage(this.username, this.messageContent)
-        .subscribe({
-          next: (message) => {
-            console.log(message.content);
-            this.messages.push(message);
-            this.messageForm?.reset();
-          },
+        .sendMessage(this.username, this.messageContent).then(() => {
+          this.messageForm?.reset();
         });
     }
   }

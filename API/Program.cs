@@ -2,6 +2,7 @@ using API.Data;
 using API.Entities;
 using API.Extensions;
 using API.Middleware;
+using API.SignalR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,13 +18,18 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseMiddleware<ExceptionMiddleware>();
-app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod()
+app.UseCors(builder => builder
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+    .AllowCredentials()
     .WithOrigins("https://localhost:4200"));
 
 app.UseAuthentication(); // check the presence of a valid token.
 app.UseAuthorization(); // check the presence of right authorization.
 
 app.MapControllers();
+app.MapHub<PresenceHub>("hubs/presence"); // this is the endpoint for the SignalR hub
+app.MapHub<MessageHub>("hubs/message");
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
