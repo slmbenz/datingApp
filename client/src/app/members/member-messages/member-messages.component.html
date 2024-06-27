@@ -3,7 +3,7 @@
     <div *ngIf="messages.length === 0">
       No Messages yet... say hi by using the message box below
     </div>
-    <ul *ngIf="messages.length > 0" class="chart">
+    <ul *ngIf="messages.length > 0" class="chat">
       <li *ngFor="let message of messages">
         <div>
           <span class="chat-img float-end">
@@ -16,7 +16,7 @@
           <div class="chat-body">
             <div class="header">
               <small class="text-muted">
-                <span class="fa fa-clock-o">{{
+                <span class="fa fa-clock-o"> {{
                   message.messageSent + "Z" | timeago
                 }}</span>
                 <span

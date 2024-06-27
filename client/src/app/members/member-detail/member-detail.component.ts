@@ -31,7 +31,6 @@ export class MemberDetailComponent implements OnInit {
   messages: Message[] = [];
 
   constructor(
-    private memberService: MembersService,
     private route: ActivatedRoute,
     private messageService: MessageService
   ) {}
