@@ -13,12 +13,9 @@ namespace API.Controllers
     public class AdminController : BaseApiController
     {
         private readonly UserManager<AppUser> _userManager;
-        private readonly RoleManager<AppRole> _roleManager;
-        public AdminController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
+        public AdminController(UserManager<AppUser> userManager)
         {
-            _roleManager = roleManager;
             _userManager = userManager;
-
         }
 
         [Authorize(Policy = "RequireAdminRole")]
@@ -26,24 +23,16 @@ namespace API.Controllers
         public async Task<ActionResult> GetUsersWithRoles()
         {
             var users = await _userManager.Users
-            .OrderBy(u => u.UserName)
-            .Select(u => new
-            {
-                u.Id,
-                Username = u.UserName,
-                Roles = u.UserRoles.Select(r => r.Role.Name)
-            }).ToListAsync();
+                .OrderBy(u => u.UserName)
+                .Select(u => new
+                {
+                    u.Id,
+                    Username = u.UserName,
+                    Roles = u.UserRoles.Select(r => r.Role.Name).ToList()
+                }).ToListAsync();
 
             return Ok(users);
         }
-
-        [Authorize(Policy = "ModeratePhotoRole")]
-        [HttpGet("photos-to-moderate")]
-        public ActionResult GetPhotosForModeration()
-        {
-            return Ok("Only Admins or Moderators can see this");
-        }
-
 
         [Authorize(Policy = "RequireAdminRole")]
         [HttpPost("edit-roles/{username}")] // -- TODO -- it should be a put request. but we are using post for testing
@@ -65,5 +54,11 @@ namespace API.Controllers
             return Ok(await _userManager.GetRolesAsync(user));
         }
 
+        [Authorize(Policy = "ModeratePhotoRole")]
+        [HttpGet("photos-to-moderate")]
+        public ActionResult GetPhotosForModeration()
+        {
+            return Ok("Admin or moderator can see this");
+        }
     }
 }

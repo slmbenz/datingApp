@@ -14,6 +14,7 @@ namespace API.services
         private readonly UserManager<AppUser> _userManager;
         public TokenService(IConfiguration config, UserManager<AppUser> userManager)
         {
+            _userManager = userManager;
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
             _userManager = userManager;
         }
@@ -29,9 +30,8 @@ namespace API.services
             };
 
             var roles = await _userManager.GetRolesAsync(user);
+
             claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
-
-
 
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
 
