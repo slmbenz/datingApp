@@ -18,13 +18,17 @@ namespace API.Extensions
             });
             services.AddCors();
             services.AddScoped<ITokenService, TokenService>(); // used for https request used inside a controller. it needs to specify the Interface and its implementing class
-            services.AddScoped<IUserRepository, UserRepository>();
+            // services.AddScoped<IUserRepository, UserRepository>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings")); // this is used to configure the CloudinarySettings class
             services.AddScoped<IPhotoService, PhotoService>();
             services.AddScoped<LogUserActivity>();
-            services.AddScoped<ILikesRepository, LikesRepository>();
-            services.AddScoped<IMessageRepository, MessageRepository>();
+
+            // services.AddScoped<ILikesRepository, LikesRepository>();
+            // services.AddScoped<IMessageRepository, MessageRepository>();
+
+            // setting the Unit Of Work
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSignalR();
             services.AddSingleton<PresenceTracker>();
 
